@@ -32,7 +32,6 @@ function App() {
   }, []);
 
   const addToFavorites = (id: string) => {
-    console.log(id);
     const exist = ramdonDogs.find((el) => el.id === id);
     if (exist) {
       setFavorites([...favorites, exist]);
@@ -51,7 +50,7 @@ function App() {
         ))}
       </div>
       <hr className="mb-10" />
-      <Favorites favorites={favorites} />
+      <Favorites favorites={favorites} setFavorites={setFavorites} />
     </div>
   );
 }

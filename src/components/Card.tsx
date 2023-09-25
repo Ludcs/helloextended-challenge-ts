@@ -5,15 +5,21 @@ import {Dog} from '../interfaces/dog.interface';
 
 interface CardProps {
   el: Dog;
-  addToFavorites: (id: string) => void;
+  addToFavorites?: (id: string) => void;
+  removeFromFavorites?: (id: string) => void;
 }
 
-export const Card = ({el, addToFavorites}: CardProps) => {
+export const Card = ({el, addToFavorites, removeFromFavorites}: CardProps) => {
   const [toggleFavorite, setToggleFavorite] = useState<boolean>(false);
 
   const handleFavorite = (id: string) => {
-    addToFavorites(id);
-    setToggleFavorite(true);
+    if (addToFavorites) {
+      addToFavorites(id);
+    }
+    setToggleFavorite(!toggleFavorite);
+    if (toggleFavorite === false && removeFromFavorites) {
+      removeFromFavorites(id);
+    }
   };
 
   return (
