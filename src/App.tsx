@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import axios from 'axios';
+import {SearchBar} from './components/SearchBar';
+import {useState, useEffect} from 'react';
+import {Dog} from './interfaces/dog.interface';
+import {Card} from './components/Card';
+import {Favorites} from './components/Favorites';
+import {v4 as uuidv4} from 'uuid';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ramdonDogs, setRamdonDogs] = useState<Dog[]>([]);
+  const [favorites, setFavorites] = useState<Dog[]>([]);
+  const getRamdonBreeds = async () => {
+    try {
+      const res = await axios.get(`https://dog.ceo/api/breeds/image/random/10`);
+      //console.log(res.data);
+
+      setRamdonDogs(
+        res.data.message.map((el: string) => {
+          return {
+            image: el,
+            id: uuidv4(),
+          };
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getRamdonBreeds();
+  }, []);
+
+  const addToFavorites = (id: string) => {
+    console.log(id);
+    const exist = ramdonDogs.find((el) => el.id === id);
+    if (exist) {
+      setFavorites([...favorites, exist]);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="w-full h-screen p-14">
+      <header className="bg-red-200 mb-10">
+        <h1 className="font-nunito-sans font-bold text-2xl">Dog Breeds</h1>
+      </header>
+      <SearchBar />
+      <div className="grid grid-cols-3 mb-10 gap-1">
+        {ramdonDogs.map((el) => (
+          <Card key={el.id} el={el} addToFavorites={addToFavorites} />
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <hr className="mb-10" />
+      <Favorites favorites={favorites} />
+    </div>
+  );
 }
 
-export default App
+export default App;
