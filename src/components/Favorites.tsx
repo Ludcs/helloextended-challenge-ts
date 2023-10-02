@@ -4,16 +4,12 @@ import {Card} from './Card';
 import {IconRedHeart} from './IconRedHeart';
 
 interface FavoritesProp {
-  favorites: Dog[];
-  setFavorites: Dispatch<SetStateAction<Dog[]>>;
+  ramdonDogs: Dog[];
+  setRamdonDogs: Dispatch<SetStateAction<Dog[]>>;
+  removeFromFavorites?: (id: string, favorite: boolean) => void;
 }
 
-export const Favorites = ({favorites, setFavorites}: FavoritesProp) => {
-  const removeFromFavorites = (id: string) => {
-    const isRemove = favorites.filter((el) => el.id !== id);
-    setFavorites(isRemove);
-  };
-
+export const Favorites = ({ramdonDogs, removeFromFavorites}: FavoritesProp) => {
   return (
     <>
       <div className="flex items-center gap-6 mb-10">
@@ -21,9 +17,28 @@ export const Favorites = ({favorites, setFavorites}: FavoritesProp) => {
         <p className="font-nunito-sans font-bold text-2xl">Favorites</p>
       </div>
       <div className="grid grid-cols-3 pb-10 gap-1">
-        {favorites.map((el) => (
-          <Card el={el} removeFromFavorites={removeFromFavorites} />
-        ))}
+        {/* {ramdonDogs
+          .filter((el) => el.isFavorite) // Mostrar solo elementos con isFavorite true
+          .map((el) => (
+            <Card
+              key={el.id}
+              el={el}
+              removeFromFavorites={removeFromFavorites}
+              isFavorite={el.isFavorite}
+            />
+          ))} */}
+        {ramdonDogs.map((el) =>
+          el.isFavorite ? (
+            <Card
+              key={el.id}
+              el={el}
+              removeFromFavorites={removeFromFavorites}
+              isFavorite={el.isFavorite}
+            />
+          ) : (
+            ''
+          )
+        )}
       </div>
     </>
   );
