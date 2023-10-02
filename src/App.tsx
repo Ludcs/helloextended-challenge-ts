@@ -8,8 +8,8 @@ import {v4 as uuidv4} from 'uuid';
 
 function App() {
   const [ramdonDogs, setRamdonDogs] = useState<Dog[]>([]);
-  //TODO: ver linea 21 y capaz que si puedo usar un unico array de ramdonDogs al manipularlo
-  //const [favorites, setFavorites] = useState<Dog[]>([]);
+  const [favoritesDogs, setFavoritesDogs] = useState<Dog[]>([]);
+
   const getRamdonBreeds = async () => {
     try {
       const res = await axios.get(`https://dog.ceo/api/breeds/image/random/10`);
@@ -34,35 +34,16 @@ function App() {
   const addToFavorites = (id: string) => {
     const exist = ramdonDogs.find((el) => el.id === id);
     if (exist) {
-      setRamdonDogs([...ramdonDogs, {...exist, isFavorite: true}]);
+      setFavoritesDogs([...favoritesDogs, {...exist, isFavorite: true}]);
     }
+    // setToggleFavorite(true);
   };
 
-  const removeFromFavorites = (id: string, favorite: boolean) => {
-    console.log(id, favorite);
-
-    if (favorite === true) {
-      // Cambia la propiedad isFavorite a false para el elemento con el ID dado
-      const updatedDogs = ramdonDogs.map((el) => {
-        if (el.id === id) {
-          return {...el, isFavorite: false};
-        }
-        return el;
-      });
-
-      // Actualiza el estado con los perros actualizados
-      setRamdonDogs(updatedDogs);
-    }
+  const removeFromFavorites = (id: string) => {
+    console.log(id);
+    const isRemove = favoritesDogs.filter((el) => el.id !== id);
+    setFavoritesDogs(isRemove);
   };
-
-  // const removeFromFavorites = (id: string, favorite: boolean) => {
-  //   console.log(id, favorite);
-
-  //   if (favorite === false) {
-  //     const isRemove = ramdonDogs.filter((el) => el.id !== id);
-  //     setRamdonDogs(isRemove);
-  //   }
-  // };
 
   return (
     <div className="w-full h-screen p-14">
@@ -77,7 +58,7 @@ function App() {
               key={el.id}
               el={el}
               addToFavorites={addToFavorites}
-              isFavorite={el.isFavorite}
+              isOnFav={el.isFavorite}
               removeFromFavorites={removeFromFavorites}
             />
           ) : (
@@ -87,8 +68,7 @@ function App() {
       </div>
       <hr className="mb-10" />
       <Favorites
-        ramdonDogs={ramdonDogs}
-        setRamdonDogs={setRamdonDogs}
+        favoritesDogs={favoritesDogs}
         removeFromFavorites={removeFromFavorites}
       />
     </div>
