@@ -1,7 +1,6 @@
 import {IconRedHeart} from './IconRedHeart';
 import {IconWhiteHeart} from './IconWhiteHeart';
 import {Dog} from '../interfaces/dog.interface';
-//import { Dispatch, SetStateAction } from 'react'
 import {useState} from 'react';
 
 interface CardProps {
@@ -18,19 +17,6 @@ export const Card = ({
   removeFromFavorites,
 }: CardProps) => {
   const [toggleFavorite, setToggleFavorite] = useState<boolean>(false);
-  // useEffect(() => {
-  //   setToggleFavorite(true);
-  // }, [favoritesDogs, ]);
-  // const handleFavorite = (id: string) => {
-  //   if (addToFavorites) {
-  //     addToFavorites(id);
-  //     setToggleFavorite(true);
-  //   }
-  //   if (removeFromFavorites) {
-  //     setToggleFavorite(false);
-  //     removeFromFavorites(id);
-  //   }
-  // };
 
   return (
     <div className="relative cursor-pointer">

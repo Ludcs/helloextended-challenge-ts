@@ -25,7 +25,6 @@ export const Favorites = ({
               el={el}
               isOnFav={el.isFavorite}
               removeFromFavorites={removeFromFavorites}
-              favoritesDogs={favoritesDogs}
             />
           ) : (
             ''

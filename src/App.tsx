@@ -36,7 +36,6 @@ function App() {
     if (exist) {
       setFavoritesDogs([...favoritesDogs, {...exist, isFavorite: true}]);
     }
-    // setToggleFavorite(true);
   };
 
   const removeFromFavorites = (id: string) => {
@@ -50,7 +49,7 @@ function App() {
       <header className="mb-10">
         <h1 className="font-nunito-sans font-bold text-2xl">Dog Breeds</h1>
       </header>
-      <SearchBar />
+      <SearchBar setRamdonDogs={setRamdonDogs} />
       <div className="grid grid-cols-3 mb-10 gap-1">
         {ramdonDogs.map((el) =>
           el.isFavorite === false ? (
